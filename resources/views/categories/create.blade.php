@@ -6,8 +6,8 @@
             <div class="card-title">Form Validation</div>
         </div>
         <!--end::Header-->
-    
-        <form action="{{ route('category.store') }}" method="POST">
+               
+        {{-- <form action="{{ route('category.store') }}" method="POST">
             @csrf
             <!--begin::Body-->
             <div class="card-body">
@@ -38,7 +38,7 @@
         <button class="btn btn-info" type="submit">Submit form</button>
     </div>
     <!--end::Footer-->
-    </form>
+    </form> --}}
     <!--end::Form-->
     <!--begin::JavaScript-->
 
