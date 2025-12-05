@@ -12,6 +12,10 @@ use App\Http\Controllers\CategoryController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/', function() {
+    return view('index');
+});
 Route::resource('category',CategoryController ::class,[ 'only'=>['index', 'create','store','show','edit','update','destroy'] ]);
 
 
