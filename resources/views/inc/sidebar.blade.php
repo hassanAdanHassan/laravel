@@ -39,23 +39,12 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./index.html" class="nav-link active">
+                    <a href="{{route('category.index')}}" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>create</p>
+                      <p>Categories</p>
                     </a>
                   </li>
-                  <li class="nav-item">
-                    <a href="./index2.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>read</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./index3.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Dashboard </p>
-                    </a>
-                  </li>
+                  
                 </ul>
               </li>
               
