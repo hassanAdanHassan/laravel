@@ -3,7 +3,9 @@
     <div class="card m-3">
         <div class="card-header">
             <div class="col-5">
-                <a href="" class="btn btn-success "> Create new category</a>
+                @can('category-create', Auth::user()->role)
+                    <a href="" class="btn btn-success "> Create new category</a>
+                @endcan
             </div>
             
             <div class="card-tools">
