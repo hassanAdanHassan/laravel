@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
-})->middleware('auth');
+})->middleware(['auth']);
 
 Route::resource('category', CategoryController::class)->middleware('auth');
 

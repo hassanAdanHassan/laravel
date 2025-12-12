@@ -70,9 +70,17 @@
                     <td>{{ $cat->descr }}</td>
                     <td>{{ $cat->slug }}</td>
                     <td>{{ $cat->amount }}</td>
-                    <td><a href="{{ route('category.edit', $cat->id) }}" class="btn btn-sm btn-primary">
+                    <td>
+
+
+                    
+
+                        @can('view',   $cat)                               
+                        <a href="{{ route('category.edit', $cat->id) }}" class="btn btn-sm btn-primary">
                             Edit
                         </a>
+                        @endcan
+                        @can('delete',  $cat)
                         <form action="{{ route('category.destroy', $cat->id) }}" method="POST"
                             onsubmit="return confirm('maxubtaa in aad tureysiid?')" style="display:inline;">
                             @csrf
@@ -82,9 +90,7 @@
                             </button>
 
                         </form>
-                        {{-- <a href="{{ route('category.edit', $cat->id) }}" class="btn btn-sm btn-danger">
-                           delete
-                        </a> --}}
+                        @endcan
                     </td>
                 </tr>
             @endforeach

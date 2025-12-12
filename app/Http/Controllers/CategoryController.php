@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\categoryModel;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
@@ -12,9 +13,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        
-        $category=categoryModel::all();
-       return view('categories.index',compact('category'));
+
+        $category = categoryModel::all();
+        return view('categories.index', compact('category'));
     }
 
     /**
@@ -22,8 +23,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        
-         return view('categories.create');
+
+        return view('categories.create');
     }
 
     /**
@@ -37,10 +38,13 @@ class CategoryController extends Controller
             'slug' => 'required|string|max:255|unique:category_models,slug',
             'amount' => 'required|numeric',
         ]);
-        
-        $category=categoryModel::create($data);
 
-        return redirect()->route('category.show',compact('category'))->with('success', 'Category created successfully.');
+        $data['user_id'] = auth()->id();
+
+
+        $category = categoryModel::create($data);
+
+        return redirect()->route('category.show', compact('category'))->with('success', 'Category created successfully.');
     }
 
     /**
@@ -48,8 +52,11 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        $category=categoryModel::all();
-        return view('categories.show',compact('category'));
+        if (!Gate::allows('viewAny')) {
+            abort(403, 'You do not have access to the admin panel.');
+        }
+        $category = categoryModel::all();
+        return view('categories.show', compact('category'));
     }
 
     /**
@@ -57,10 +64,9 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-           $category=categoryModel::findOrFail($id);
-       
-          return view('categories.edit',compact('category'));
-    
+        $category = categoryModel::findOrFail($id);
+
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -71,14 +77,14 @@ class CategoryController extends Controller
         $data = $request->validate([
             'name' => 'required|string|min:3|max:255',
             'descr' => 'required|string',
-            'slug' => 'required|string|max:255|unique:category_models,slug,'.$id,
+            'slug' => 'required|string|max:255|unique:category_models,slug,' . $id,
             'amount' => 'required|numeric',
         ]);
-        
-        $category=categoryModel::findOrFail($id);
+
+        $category = categoryModel::findOrFail($id);
         $category->update($data);
 
-        return redirect()->route('category.show',compact('category'))->with('success', 'Category updated successfully.');
+        return redirect()->route('category.show', compact('category'))->with('success', 'Category updated successfully.');
     }
 
     /**
@@ -86,7 +92,7 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $category=categoryModel::findOrFail($id);
+        $category = categoryModel::findOrFail($id);
         $category->delete();
 
         return redirect()->route('category.index')->with('success', 'Category deleted successfully.');

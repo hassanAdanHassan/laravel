@@ -4,10 +4,13 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
-use Illuminate\Auth\Access\Gate;
+
+
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Models\User;
 use App\Models\CategoryModel;
+use App\Policies\CategoryPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -27,12 +30,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // Gate::define('category-create', function ($user) {
-        //     return $user->role === 'admin';
-        // });
+        Gate::define('viewAny', [CategoryPolicy::class, 'viewAny']);
+        Gate::define('view', [CategoryPolicy::class, 'view']);
+        Gate::define('create', [CategoryPolicy::class, 'create']);
+        Gate::define('update', [CategoryPolicy::class, 'update']);
+        Gate::define('delete', [CategoryPolicy::class, 'delete']);
 
-        Gate::define('update-post', function (User $user,  CategoryModel $category) {
-        return $user->id === $category->id;
-        });
     }
 }
