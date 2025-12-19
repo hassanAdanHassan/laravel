@@ -62,6 +62,9 @@
                     <th>Action</th>
                 </thead>
             </tr>
+       
+
+
             @foreach ($category as $cat)
                 <tr>
 
@@ -75,12 +78,12 @@
 
                     
 
-                        @can('view',   $cat)                               
+                        {{-- @can('view',   $cat)                                --}}
                         <a href="{{ route('category.edit', $cat->id) }}" class="btn btn-sm btn-primary">
                             Edit
                         </a>
-                        @endcan
-                        @can('delete',  $cat)
+                        {{-- @endcan
+                        @can('delete',  $cat) --}}
                         <form action="{{ route('category.destroy', $cat->id) }}" method="POST"
                             onsubmit="return confirm('maxubtaa in aad tureysiid?')" style="display:inline;">
                             @csrf
@@ -90,29 +93,11 @@
                             </button>
 
                         </form>
-                        @endcan
+                        {{-- @endcan --}}
                     </td>
                 </tr>
             @endforeach
         </table>
-        <script> 
-        $(function () {
-          // data table initialize with searching and paging complete features
-          $('#categoryTable').DataTable();
-          processing: true,
-            serverSide: false,
-            ajax: '{{ route('category.index') }}',
-            columns: [
-              { data: 'id', name: 'id' },
-              { data: 'name', name: 'name' },
-              { data: 'descr', name: 'descr' },
-              { data: 'slug', name: 'slug' },
-              { data: 'amount', name: 'amount' },
-        ];  
-
-
-
-        });
-        </script>
+       
     </div>
 @endsection

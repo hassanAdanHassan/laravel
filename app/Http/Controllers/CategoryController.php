@@ -15,7 +15,7 @@ class CategoryController extends Controller
     {
 
         $category = categoryModel::all();
-        return view('categories.index', compact('category'));
+        return view('categories.show', compact('category'));
     }
 
     /**
@@ -32,17 +32,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|min:3|max:255',
-            'descr' => 'required|string',
-            'slug' => 'required|string|max:255|unique:category_models,slug',
-            'amount' => 'required|numeric',
-        ]);
-
-        $data['user_id'] = auth()->id();
-
-
-        $category = categoryModel::create($data);
+           $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'descr'=>'required|string|max:255',
+        'slug'=>['required','string'],
+        'amount'=> ['required','int'],
+    ]);
+          
+    //    $data['user_id'] = auth()->id();
+          
+        // print_r( $validated);
+         $category = categoryModel::create($validated);
 
         return redirect()->route('category.show', compact('category'))->with('success', 'Category created successfully.');
     }
@@ -50,11 +50,14 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(categoryModel $category)
     {
-        if (!Gate::allows('viewAny')) {
-            abort(403, 'You do not have access to the admin panel.');
-        }
+        //  print($category);
+       
+    //    return view('categories.show', compact('category'));
+        // if (!Gate::allows('viewAny')) {
+        //     abort(403, 'You do not have access to the admin panel.');
+        // }
         $category = categoryModel::all();
         return view('categories.show', compact('category'));
     }
@@ -81,10 +84,10 @@ class CategoryController extends Controller
             'amount' => 'required|numeric',
         ]);
 
-        $category = categoryModel::findOrFail($id);
-        $category->update($data);
-
-        return redirect()->route('category.show', compact('category'))->with('success', 'Category updated successfully.');
+        // $category = categoryModel::findOrFail($id);
+        // $category->update($data);
+     print_r($data);
+        // return redirect()->route('category.show', compact('category'))->with('success', 'Category updated successfully.');
     }
 
     /**

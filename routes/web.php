@@ -3,6 +3,8 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +16,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::resource("display_user",UsersController::class)->only([ "index","update","destroy"]);
+Route::resource("show", CategoryController::class)->only(["show","update",'destory']);
+Route::resource('product', ProductsController::class)->only(['index','show','update']);
 Route::get('/', function () {
     return view('index');
-})->middleware(['auth']);
+});
 
 Route::resource('category', CategoryController::class)->middleware('auth');
 
