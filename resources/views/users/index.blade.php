@@ -1,11 +1,19 @@
 @extends('layouts.master')
 @section('content')
+<div class="container-fluid">
+
+
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
     <div class="card m-3">
         <div class="card-header">
             <h3>display users and controll</h3>
             <div class="col-5">
 
-                <a href="" class="btn btn-success "> Create new user</a>
+                <a href="{{ route('users.create') }}" class="btn btn-success "> Create new user</a>
 
             </div>
 
@@ -36,23 +44,23 @@
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
-                        <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->role }}</td>
-                            <td>{{ $user->email_verified_at }}</td>
-                            <td>
-                                <a href="{{ route('posts.edit', $post) }}">Edit</a>
+                    <tr>
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->role }}</td>
+                        <td>{{ $user->email_verified_at }}</td>
+                        <td>
+                            <a href="{{ route('users.edit', $user->id) }}">Edit</a>
 
-                                <form action="{{ route('posts.destroy', $post) }}" method="POST" style="display:inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit">Delete</button>
-                                </form>
-                            </td>
+                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
 
-                        </tr>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -60,4 +68,5 @@
         <!-- /.card-body -->
     </div>
     <!-- /.card -->
+</div>
 @endsection

@@ -16,14 +16,36 @@ use App\Http\Controllers\UsersController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::resource("display_user",UsersController::class)->only([ "index","update","destroy"]);
-Route::resource("show", CategoryController::class)->only(["show","update",'destory']);
-Route::resource('product', ProductsController::class)->only(['index','show','update']);
+
+
+
+// Index
+// Create
+// Edit
+
+
 Route::get('/', function () {
     return view('index');
-});
+})->middleware(['auth', 'verified']);
+
+
+
+Route::resource("show", CategoryController::class)->only(["show","update",'destory']);
+Route::resource('product', ProductsController::class)->only(['index','show','update']);
+
 
 Route::resource('category', CategoryController::class)->middleware('auth');
+
+Route::prefix('users')->middleware(['auth', 'verified'])->group(function(){
+    Route::get('/', [UsersController::class, 'index'])->name('users.index');
+    Route::get('/create', [UsersController::class, 'create'])->name('users.create');
+    Route::post('/store', [UsersController::class, 'store'])->name('users.store');
+    Route::get('/edit/{id}', [UsersController::class, 'edit'])->name('users.edit');
+    Route::put('/update/{id}', [UsersController::class, 'update'])->name('users.update');
+    Route::delete('/destroy/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
+});
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

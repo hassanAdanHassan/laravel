@@ -14,7 +14,7 @@ class UsersController extends Controller
         //add method of users 
         // $users = User::orderBy("name")->paginate(10);
         $users = User::all();
-        return view("users.display", compact("users"));
+        return view("users.index", compact("users"));
       
     }
 
@@ -23,7 +23,9 @@ class UsersController extends Controller
      */
     public function create()
     {
-        // form creating
+        // create-user gate
+        $this->authorize('create-user');
+        return view("users.create");
     }
 
     /**
@@ -31,7 +33,22 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        // insert data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:admin,user',
+        ]);
+
+        // Create the user
+        User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => bcrypt($validatedData['password']),
+            'role' => $validatedData['role'],
+        ]);
+
+        return redirect()->route("users.index")->with("success","User created successfully");
     }
 
     /**
@@ -47,7 +64,9 @@ class UsersController extends Controller
      */
     public function edit(string $id)
     {
-        // form edit
+        $user = User::findOrFail($id);
+
+        return view("users.edit", compact("user"));
     }
 
     /**
@@ -56,6 +75,10 @@ class UsersController extends Controller
     public function update(Request $request, string $id)
     {
         // update like insert
+        $user = User::findOrFail($id);
+
+        $user->update($request->all());
+        return redirect()->route("users.index")->with("success","User updated successfully");
     }
 
     /**
@@ -64,5 +87,8 @@ class UsersController extends Controller
     public function destroy(string $id)
     {
         // delete
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->route("users.index")->with("success","User deleted successfully");
     }
 }

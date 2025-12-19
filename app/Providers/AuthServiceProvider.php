@@ -11,6 +11,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use App\Models\User;
 use App\Models\CategoryModel;
 use App\Policies\CategoryPolicy;
+use App\Policies\UserPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,14 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create', [CategoryPolicy::class, 'create']);
         Gate::define('update', [CategoryPolicy::class, 'update']);
         Gate::define('delete', [CategoryPolicy::class, 'delete']);
+
+
+        // User Gates
+        Gate::define('manage-users', function (User $user) {
+            return $user->is_admin; // Assuming 'is_admin' is a boolean field in
+        });
+
+        Gate::define('create-user', [UserPolicy::class, 'create']);
 
     }
 }
