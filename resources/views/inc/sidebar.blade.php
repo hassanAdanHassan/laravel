@@ -23,7 +23,7 @@
                     <a href="#" class="nav-link active">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>
-                             categories
+                            categories
                             <i class="nav-arrow bi bi-chevron-right"></i>
                         </p>
                     </a>
@@ -45,7 +45,7 @@
                     <a href="#" class="nav-link active">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>
-                           product
+                            product
                             <i class="nav-arrow bi bi-chevron-right"></i>
                         </p>
                     </a>
@@ -60,13 +60,15 @@
                     </ul>
                 </li>
             </ul>
-             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
+            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
                 aria-label="Main navigation" data-accordion="false" id="navigation">
+
+                @can('create-user', App\Models\User::class)
                 <li class="nav-item menu-open">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>
-                           users
+                            users
                             <i class="nav-arrow bi bi-chevron-right"></i>
                         </p>
                     </a>
@@ -80,8 +82,9 @@
 
                     </ul>
                 </li>
+                @endcan
             </ul>
-            <!--end:
+            <!--end::Sidebar Menu-->
         </nav>
     </div>
     <!--end::Sidebar Wrapper-->

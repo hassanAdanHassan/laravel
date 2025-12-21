@@ -36,7 +36,7 @@ Route::resource('product', ProductsController::class)->only(['index','show','upd
 
 Route::resource('category', CategoryController::class)->middleware('auth');
 
-Route::prefix('users')->middleware(['auth', 'verified'])->group(function(){
+Route::prefix('users')->middleware(['auth', 'verified', 'can:create-user'])->group(function(){
     Route::get('/', [UsersController::class, 'index'])->name('users.index');
     Route::get('/create', [UsersController::class, 'create'])->name('users.create');
     Route::post('/store', [UsersController::class, 'store'])->name('users.store');
