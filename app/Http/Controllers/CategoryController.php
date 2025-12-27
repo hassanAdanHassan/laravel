@@ -55,9 +55,9 @@ class CategoryController extends Controller
         //  print($category);
        
     //    return view('categories.show', compact('category'));
-        // if (!Gate::allows('viewAny')) {
-        //     abort(403, 'You do not have access to the admin panel.');
-        // }
+    //     if (!Gate::allows('viewAny')) {
+    //         abort(403, 'You do not have access to the admin panel.');
+    //     }
         $category = categoryModel::all();
         return view('categories.show', compact('category'));
     }

@@ -19,7 +19,11 @@
                 </div>
                  <div class="form-group mb-4">
                     <label for="role">Role:</label>
-                    <input type="text" name="role" id="role" value="{{ $user->role }}" class="form-control">
+                    <select name="role" id="role" class="form-control">
+                        <option value="user" {{ $user->role ==="user" ? "selected" : " " }}>user</option>
+                        <option value="admin" {{ $user->role === "admin"? "selected" : " " }}>admin</option>
+                    </select>
+                
                 </div>
                 <button type="submit" class="btn btn-primary">Update User</button>
             </form>
