@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UsersController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +37,7 @@ Route::resource('product', ProductsController::class)->only(['index','show','upd
 
 Route::resource('category', CategoryController::class)->middleware('auth');
 
-Route::prefix('users')->middleware(['auth', 'verified'])->group(function(){
+Route::prefix('users')->middleware(['auth', 'verified', 'can:create-user'])->group(function(){
     Route::get('/', [UsersController::class, 'index'])->name('users.index');
     Route::get('/create', [UsersController::class, 'create'])->name('users.create');
     Route::post('/store', [UsersController::class, 'store'])->name('users.store');
@@ -52,9 +53,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/users/profile', [UsersController::class, 'editProfile'])->name('profile.edit');
+    Route::patch('/users/profile', [UsersController::class, 'profileUpdate'])->name('profile.update');
 });
 
 require __DIR__.'/auth.php';
