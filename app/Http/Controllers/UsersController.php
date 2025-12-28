@@ -38,12 +38,15 @@ class UsersController extends Controller
     {
         $validatedData = $request->validated();
 
-        // Create the user
+    {
+        // $this->authorize("admin");
+      $insert=$UserRequest;
+    
         User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => bcrypt($validatedData['password']),
-            'role' => $validatedData['role'],
+            'name' => $insert['name'],
+            'email' => $insert['email'],
+            'password' => bcrypt($insert['password']),
+            'role' => $insert['role'],
         ]);
 
         return redirect()->route("users.index")->with("success", "User created successfully");
